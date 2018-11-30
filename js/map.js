@@ -102,7 +102,6 @@ var generateData = function (amount) {
       },
     };
   }
-
   return similarAdds;
 };
 
@@ -170,20 +169,7 @@ var renderCard = function (pin) {
     var convenienceItem = document.createElement('li');
     convenienceItem.classList.add('popup__feature');
 
-    if (pin['offer']['features'][i] === 'wifi') {
-      convenienceItem.classList.add('popup__feature--' + pin['offer']['features'][i]);
-    } else if (pin['offer']['features'][i] === 'dishwasher') {
-      convenienceItem.classList.add('popup__feature--' + pin['offer']['features'][i]);
-    } else if (pin['offer']['features'][i] === 'washer') {
-      convenienceItem.classList.add('popup__feature--' + pin['offer']['features'][i]);
-    } else if (pin['offer']['features'][i] === 'elevator') {
-      convenienceItem.classList.add('popup__feature--' + pin['offer']['features'][i]);
-    } else if (pin['offer']['features'][i] === 'conditioner') {
-      convenienceItem.classList.add('popup__feature--' + pin['offer']['features'][i]);
-    } else if (pin['offer']['features'][i] === 'parking') {
-      convenienceItem.classList.add('popup__feature--' + pin['offer']['features'][i]);
-    }
-
+    convenienceItem.classList.add('popup__feature--' + pin['offer']['features'][i]);
     convenienceItem.textContent = pin['offer']['features'][i];
 
     convenienceList.appendChild(convenienceItem);
