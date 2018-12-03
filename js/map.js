@@ -129,7 +129,6 @@ var renderCard = function (pin) {
   var mapCardTemplate = document.querySelector('#card').content.querySelector('.map__card');
 
   var cardItem = mapCardTemplate.cloneNode(true);
-
   var offerTitle = cardItem.querySelector('.popup__title');
   offerTitle.textContent = pin['offer']['title'];
 
@@ -199,15 +198,20 @@ var renderCard = function (pin) {
   // это лучше в отдельную функцию вынести? если так, то я не нашел способа, при котором вынесенная функция видела переменную cardItem
 
   var popupClose = document.querySelectorAll('.popup__close');
-  var popupCloseOnClick = function (close, card) {
+
+  var popupCloseOnClick = function (close) {
     close.addEventListener('click', function () {
-      card.classList.add('hidden');
+      var carditems = document.querySelectorAll('.map__card');
+      for (var m = 0; m < carditems.length; m++) {
+        carditems[m].classList.add('hidden');
+      }
     });
   };
 
   for (var k = 0; k < popupClose.length; k++) {
-    popupCloseOnClick(popupClose[k], cardItem);
+    popupCloseOnClick(popupClose[k]);
   }
+
 };
 
 // поиск формы
@@ -248,7 +252,6 @@ var activateMap = function () {
   for (var j = 0; j < pins.length; j++) {
     mapPinOnClick(mapPins[j + 1], pins[j]);
   }
-
 };
 
 mapPinMain.addEventListener('mouseup', activateMap);
@@ -261,3 +264,23 @@ var mapPinOnClick = function (mapPin, pin) {
 };
 
 disableMap();
+// ----------------------Задание 2.2----------------------------------
+
+// var typeField = document.querySelector('#type');
+
+// var price = document.querySelector('#price');
+
+// var typeFieldMap = {
+//   'bungalo': '0',
+//   'flat': '1000',
+//   'house': '5000',
+//   'palace': '10000',
+// };
+
+// typeField.onchange = function () {
+//   price.placeholder = typeFieldMap[typeField.options[typeField.selectedIndex].value];
+// };
+
+// addressField.disabled = true;
+
+
