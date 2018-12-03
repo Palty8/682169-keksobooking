@@ -196,9 +196,7 @@ var renderCard = function (pin) {
 
   // ------------------ВТОРОЕ ЗАДАНИЕ-------------------------------
 
-  // работает только закрытие первой карточки. здесь я сейчас остановился, не могу додумать как закрывать каждую карточку на крестик.
-  // и наверное тут этому коду не место, но я как обычно хочу сначала сделать чтобы все работало, а потом реструктуировать.
-  // это лучше в отдельную функцию выносить?
+  // это лучше в отдельную функцию вынести? если так, то я не нашел способа, при котором вынесенная функция видела переменную cardItem
 
   var popupClose = document.querySelectorAll('.popup__close');
   var popupCloseOnClick = function (close, card) {
@@ -241,7 +239,7 @@ var activateMap = function () {
   }
   addressField.value = Math.floor(mapPinMain.offsetLeft + mapPinMain.offsetWidth / 2) + ', ' + Math.floor(mapPinMain.offsetTop - mapPinMain.offsetHeight);
   // код ниже как я понимаю, надо вынести в другую функцию, к активации не имеет отношения. или вообще в две?
-  // честно говоря, не могу сформулировать точно вопрос, голова уже совсем не варит, завтра попробую, есди будет необходимость
+  // тогда как лучше сделать так, чтобы после активации карты в отдельной функци исразу же отрисовывались метки?
   var pins = generateData(PIN_COUNT);
   renderPins(pins);
   mapPinMain.removeEventListener('mouseup', activateMap);
@@ -262,10 +260,4 @@ var mapPinOnClick = function (mapPin, pin) {
   });
 };
 
-var initMap = function () { // когда в функции вызов только одной функции - она лишняя?
-  // я так понимаю в initMap надо вызывать другие функции, которые я еще не вынес
-  disableMap();
-};
-
-initMap();
-
+disableMap();
