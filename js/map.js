@@ -195,23 +195,20 @@ var renderCard = function (pin) {
 
   // ------------------ВТОРОЕ ЗАДАНИЕ-------------------------------
 
-  // это лучше в отдельную функцию вынести? если так, то я не нашел способа, при котором вынесенная функция видела переменную cardItem
-
   var popupClose = document.querySelectorAll('.popup__close');
-
-  var popupCloseOnClick = function (close) {
-    close.addEventListener('click', function () {
-      var carditems = document.querySelectorAll('.map__card');
-      for (var m = 0; m < carditems.length; m++) {
-        carditems[m].classList.add('hidden');
-      }
-    });
-  };
 
   for (var k = 0; k < popupClose.length; k++) {
     popupCloseOnClick(popupClose[k]);
   }
+};
 
+var popupCloseOnClick = function (close) {
+  close.addEventListener('click', function () {
+    var carditems = document.querySelectorAll('.map__card');
+    for (var i = 0; i < carditems.length; i++) {
+      carditems[i].classList.add('hidden');
+    }
+  });
 };
 
 // поиск формы
@@ -242,10 +239,15 @@ var activateMap = function () {
     adFormFieldsets[i].disabled = false;
   }
   addressField.value = Math.floor(mapPinMain.offsetLeft + mapPinMain.offsetWidth / 2) + ', ' + Math.floor(mapPinMain.offsetTop - mapPinMain.offsetHeight);
-  // код ниже как я понимаю, надо вынести в другую функцию, к активации не имеет отношения. или вообще в две?
-  // тогда как лучше сделать так, чтобы после активации карты в отдельной функци исразу же отрисовывались метки?
+  showPins();
+};
+
+// создаю и показываю метки
+var showPins = function () {
   var pins = generateData(PIN_COUNT);
   renderPins(pins);
+
+  // и удаляю обработчик, метки генерировались каждый раз на клик по стартовой метке
   mapPinMain.removeEventListener('mouseup', activateMap);
 
   var mapPins = document.querySelectorAll('.map__pin');
@@ -259,11 +261,11 @@ mapPinMain.addEventListener('mouseup', activateMap);
 var mapPinOnClick = function (mapPin, pin) {
   mapPin.addEventListener('click', function () {
     renderCard(pin);
-
   });
 };
 
 disableMap();
+
 // ----------------------Задание 2.2----------------------------------
 
 // var typeField = document.querySelector('#type');
