@@ -197,15 +197,19 @@ var renderCard = function (pin) {
   // ------------------ВТОРОЕ ЗАДАНИЕ-------------------------------
 
   // работает только закрытие первой карточки. здесь я сейчас остановился, не могу додумать как закрывать каждую карточку на крестик.
-  // и наверное тут этом укоду не место, но я как обычно хочу сначала сделать чтобы все работало, а потом реструктуировать.
+  // и наверное тут этому коду не место, но я как обычно хочу сначала сделать чтобы все работало, а потом реструктуировать.
   // это лучше в отдельную функцию выносить?
 
-  var popupClose = document.querySelector('.popup__close');
+  var popupClose = document.querySelectorAll('.popup__close');
+  var popupCloseOnClick = function (close, card) {
+    close.addEventListener('click', function () {
+      card.classList.add('hidden');
+    });
+  };
 
-  popupClose.addEventListener('click', function () {
-    cardItem.classList.add('hidden');
-  });
-
+  for (var k = 0; k < popupClose.length; k++) {
+    popupCloseOnClick(popupClose[k], cardItem);
+  }
 };
 
 // поиск формы
@@ -236,7 +240,7 @@ var activateMap = function () {
     adFormFieldsets[i].disabled = false;
   }
   addressField.value = Math.floor(mapPinMain.offsetLeft + mapPinMain.offsetWidth / 2) + ', ' + Math.floor(mapPinMain.offsetTop - mapPinMain.offsetHeight);
-  // код ниже как я понимаю, надо вынести в другую функцию, к активации не имеет отношения или вообще две?
+  // код ниже как я понимаю, надо вынести в другую функцию, к активации не имеет отношения. или вообще в две?
   // честно говоря, не могу сформулировать точно вопрос, голова уже совсем не варит, завтра попробую, есди будет необходимость
   var pins = generateData(PIN_COUNT);
   renderPins(pins);
@@ -254,10 +258,11 @@ mapPinMain.addEventListener('mouseup', activateMap);
 var mapPinOnClick = function (mapPin, pin) {
   mapPin.addEventListener('click', function () {
     renderCard(pin);
+
   });
 };
 
-var initMap = function () { // когда в функции вызовы функции - она лишняя?
+var initMap = function () { // когда в функции вызов только одной функции - она лишняя?
   // я так понимаю в initMap надо вызывать другие функции, которые я еще не вынес
   disableMap();
 };
