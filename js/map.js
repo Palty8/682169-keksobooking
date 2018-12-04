@@ -105,10 +105,6 @@ var generateData = function (amount) {
   return similarAdds;
 };
 
-var activateMap = function () {
-  document.querySelector('.map').classList.remove('.map--faded');
-};
-
 var renderPins = function (pins) {
   var mapPins = document.querySelector('.map__pins');
   var mapPinsTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
@@ -133,7 +129,6 @@ var renderCard = function (pin) {
   var mapCardTemplate = document.querySelector('#card').content.querySelector('.map__card');
 
   var cardItem = mapCardTemplate.cloneNode(true);
-
   var offerTitle = cardItem.querySelector('.popup__title');
   offerTitle.textContent = pin['offer']['title'];
 
@@ -197,15 +192,97 @@ var renderCard = function (pin) {
   var mapFilter = document.querySelector('.map__filters-container');
 
   map.insertBefore(cardItem, mapFilter);
+
+  // ------------------ВТОРОЕ ЗАДАНИЕ-------------------------------
+
+  var popupClose = document.querySelectorAll('.popup__close');
+
+  for (var k = 0; k < popupClose.length; k++) {
+    popupCloseOnClick(popupClose[k]);
+  }
 };
 
-var initMap = function () {
+var popupCloseOnClick = function (close) {
+  close.addEventListener('click', function () {
+    var carditems = document.querySelectorAll('.map__card');
+    for (var i = 0; i < carditems.length; i++) {
+      carditems[i].classList.add('hidden');
+    }
+  });
+};
+
+// поиск формы
+var adForm = document.querySelector('.ad-form'); // в константы 2 строчки?
+var adFormFieldsets = adForm.querySelectorAll('fieldset');
+
+// блокировка элементов формы
+var disableMap = function () {
+  for (var i = 0; i < adFormFieldsets.length; i++) {
+    adFormFieldsets[i].disabled = true;
+  }
+};
+
+// стартовый адрес метки
+
+var mapPinMain = document.querySelector('.map__pin--main'); // в константы?
+
+var addressField = document.querySelector('#address');
+
+addressField.value = Math.floor(mapPinMain.offsetLeft + mapPinMain.offsetWidth / 2) + ', ' + Math.floor(mapPinMain.offsetTop - mapPinMain.offsetHeight / 2);
+
+// активация карты
+
+var activateMap = function () {
+  document.querySelector('.map').classList.remove('map--faded');
+  document.querySelector('.ad-form').classList.remove('ad-form--disabled');
+  for (var i = 0; i < adFormFieldsets.length; i++) {
+    adFormFieldsets[i].disabled = false;
+  }
+  addressField.value = Math.floor(mapPinMain.offsetLeft + mapPinMain.offsetWidth / 2) + ', ' + Math.floor(mapPinMain.offsetTop - mapPinMain.offsetHeight);
+  showPins();
+};
+
+// создаю и показываю метки
+var showPins = function () {
   var pins = generateData(PIN_COUNT);
-  activateMap();
   renderPins(pins);
-  renderCard(pins[0]);
+
+  // и удаляю обработчик, метки генерировались каждый раз на клик по стартовой метке
+  mapPinMain.removeEventListener('mouseup', activateMap);
+
+  var mapPins = document.querySelectorAll('.map__pin');
+  for (var j = 0; j < pins.length; j++) {
+    mapPinOnClick(mapPins[j + 1], pins[j]);
+  }
 };
 
-initMap();
+mapPinMain.addEventListener('mouseup', activateMap);
+
+var mapPinOnClick = function (mapPin, pin) {
+  mapPin.addEventListener('click', function () {
+    renderCard(pin);
+  });
+};
+
+disableMap();
+
+// ----------------------Задание 2.2----------------------------------
+
+// var typeField = document.querySelector('#type');
+
+// var price = document.querySelector('#price');
+
+// var typeFieldMap = {
+//   'bungalo': '0',
+//   'flat': '1000',
+//   'house': '5000',
+//   'palace': '10000',
+// };
+
+// typeField.onchange = function () {
+//   price.placeholder = typeFieldMap[typeField.options[typeField.selectedIndex].value];
+// };
+
+// addressField.disabled = true;
 
 
