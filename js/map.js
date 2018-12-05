@@ -203,23 +203,25 @@ var renderCard = function (pin) {
   }
 };
 
+
+// закрываю карточки на кнопку и на escape
+
+var hideCards = function () {
+  var carditems = document.querySelectorAll('.map__card');
+  for (var i = 0; i < carditems.length; i++) {
+    carditems[i].classList.add('hidden');
+  }
+};
+
 var popupCloseOnClick = function (close) {
   close.addEventListener('click', function () {
-    var carditems = document.querySelectorAll('.map__card');
-    for (var i = 0; i < carditems.length; i++) {
-      carditems[i].classList.add('hidden');
-    }
+    hideCards();
   });
 };
 
-// на escape все ок закрывается
-
 document.addEventListener('keydown', function (evt) {
   if (evt.keyCode === 27) {
-    var carditems = document.querySelectorAll('.map__card');
-    for (var i = 0; i < carditems.length; i++) {
-      carditems[i].classList.add('hidden');
-    }
+    hideCards();
   }
 });
 
