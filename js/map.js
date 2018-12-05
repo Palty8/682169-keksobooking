@@ -193,8 +193,9 @@ var renderCard = function (pin) {
 
   map.insertBefore(cardItem, mapFilter);
 
-  // ------------------ВТОРОЕ ЗАДАНИЕ-------------------------------
-
+  // ------------------Модуль 4, задание 1-------------------------------
+  // закрытие на крестик сделал в функции renderCard, но не уверен, что тут этому место.
+  // но тогда я не придумал каким образом за пределом функции я смогу найти новые созданные кнопки закрытия
   var popupClose = document.querySelectorAll('.popup__close');
 
   for (var k = 0; k < popupClose.length; k++) {
@@ -210,6 +211,18 @@ var popupCloseOnClick = function (close) {
     }
   });
 };
+
+// на escape все ок закрывается
+
+document.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === 27) {
+    var carditems = document.querySelectorAll('.map__card');
+    for (var i = 0; i < carditems.length; i++) {
+      carditems[i].classList.add('hidden');
+    }
+  }
+});
+
 
 // поиск формы
 var adForm = document.querySelector('.ad-form'); // в константы 2 строчки?
@@ -264,25 +277,68 @@ var mapPinOnClick = function (mapPin, pin) {
   });
 };
 
-disableMap();
+// ----------------------Модуль 4, задание 2----------------------------------
 
-// ----------------------Задание 2.2----------------------------------
+var typeField = document.querySelector('#type');
 
-// var typeField = document.querySelector('#type');
+var price = document.querySelector('#price');
 
-// var price = document.querySelector('#price');
+var typeFieldMap = {
+  'bungalo': '0',
+  'flat': '1000',
+  'house': '5000',
+  'palace': '10000',
+};
 
-// var typeFieldMap = {
-//   'bungalo': '0',
-//   'flat': '1000',
-//   'house': '5000',
-//   'palace': '10000',
+typeField.onchange = function () {
+  price.placeholder = typeFieldMap[typeField.options[typeField.selectedIndex].value];
+};
+
+addressField.disabled = true;
+
+var timeIn = document.querySelector('#timein');
+var timeOut = document.querySelector('#timeout');
+
+var syncTime = function (firstSelect, secondSelect) { // работают обе конструкции, но эта лучше, чем нижняя? onchange используется вообще?
+  firstSelect.addEventListener('input', function () {
+    secondSelect.value = firstSelect.value;
+  });
+};
+
+// timeIn.onchange = function () {
+//   timeOut.value = timeIn.options[timeIn.selectedIndex].value;
+//   timeOut.onchange = function () {
+//     timeIn.value = timeOut.options[timeOut.selectedIndex].value;
+//   };
 // };
 
-// typeField.onchange = function () {
-//   price.placeholder = typeFieldMap[typeField.options[typeField.selectedIndex].value];
-// };
+var roomNumber = document.querySelector('#room_number');
+var capacity = document.querySelector('#capacity');
 
-// addressField.disabled = true;
+var syncRoomsAndGuests = function (select) {
+  select.addEventListener('input', function () {
+    var capacityInt = parseInt(capacity.value, 10);
+    var roomInt = parseInt(roomNumber.value, 10);
+    if (capacityInt > roomInt && capacityInt > 0) {
+      select.setCustomValidity('Количество гостей не должно превышать количество комнат');
+    } else if (roomInt === 100 && capacityInt > 0) {
+      select.setCustomValidity('100 комнат сдаются не для гостей');
+    } else if (roomInt !== 100 && capacityInt === 0) {
+      select.setCustomValidity('Выберите количество гостей');
+    } else {
+      roomNumber.setCustomValidity('');
+      capacity.setCustomValidity('');
+    }
+  });
+};
 
+var initMap = function () {
+  disableMap();
+  syncTime(timeIn, timeOut);
+  syncTime(timeOut, timeIn);
+  syncRoomsAndGuests(roomNumber);
+  syncRoomsAndGuests(capacity);
+};
+
+initMap();
 
