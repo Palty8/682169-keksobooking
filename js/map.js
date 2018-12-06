@@ -33,6 +33,7 @@ var GUESTS_MIN = 2;
 var GUESTS_MAX = 5;
 var PIN_HEIGHT = document.querySelector('.map__pin').offsetHeight;
 var PIN_WIDTH = document.querySelector('.map__pin').offsetWidth;
+var ESCAPE_KEY_CODE = 27;
 
 var getRandomInt = function (min, max) {
   min = Math.floor(min);
@@ -193,8 +194,6 @@ var renderCard = function (pin) {
 
   map.insertBefore(cardItem, mapFilter);
 
-  // ------------------ВТОРОЕ ЗАДАНИЕ-------------------------------
-
   var popupClose = document.querySelectorAll('.popup__close');
 
   for (var k = 0; k < popupClose.length; k++) {
@@ -202,35 +201,40 @@ var renderCard = function (pin) {
   }
 };
 
+var hideCards = function () {
+  var carditems = document.querySelectorAll('.map__card');
+  for (var i = 0; i < carditems.length; i++) {
+    carditems[i].classList.add('hidden');
+  }
+};
+
 var popupCloseOnClick = function (close) {
   close.addEventListener('click', function () {
-    var carditems = document.querySelectorAll('.map__card');
-    for (var i = 0; i < carditems.length; i++) {
-      carditems[i].classList.add('hidden');
-    }
+    hideCards();
   });
 };
 
-// поиск формы
-var adForm = document.querySelector('.ad-form'); // в константы 2 строчки?
+document.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ESCAPE_KEY_CODE) {
+    hideCards();
+  }
+});
+
+
+var adForm = document.querySelector('.ad-form');
 var adFormFieldsets = adForm.querySelectorAll('fieldset');
 
-// блокировка элементов формы
 var disableMap = function () {
   for (var i = 0; i < adFormFieldsets.length; i++) {
     adFormFieldsets[i].disabled = true;
   }
 };
 
-// стартовый адрес метки
-
-var mapPinMain = document.querySelector('.map__pin--main'); // в константы?
+var mapPinMain = document.querySelector('.map__pin--main');
 
 var addressField = document.querySelector('#address');
 
 addressField.value = Math.floor(mapPinMain.offsetLeft + mapPinMain.offsetWidth / 2) + ', ' + Math.floor(mapPinMain.offsetTop - mapPinMain.offsetHeight / 2);
-
-// активация карты
 
 var activateMap = function () {
   document.querySelector('.map').classList.remove('map--faded');
@@ -242,14 +246,10 @@ var activateMap = function () {
   showPins();
 };
 
-// создаю и показываю метки
 var showPins = function () {
   var pins = generateData(PIN_COUNT);
   renderPins(pins);
-
-  // и удаляю обработчик, метки генерировались каждый раз на клик по стартовой метке
   mapPinMain.removeEventListener('mouseup', activateMap);
-
   var mapPins = document.querySelectorAll('.map__pin');
   for (var j = 0; j < pins.length; j++) {
     mapPinOnClick(mapPins[j + 1], pins[j]);
@@ -264,25 +264,59 @@ var mapPinOnClick = function (mapPin, pin) {
   });
 };
 
-disableMap();
+var typeField = document.querySelector('#type');
 
-// ----------------------Задание 2.2----------------------------------
+var price = document.querySelector('#price');
 
-// var typeField = document.querySelector('#type');
+var typeFieldMap = {
+  'bungalo': '0',
+  'flat': '1000',
+  'house': '5000',
+  'palace': '10000',
+};
 
-// var price = document.querySelector('#price');
+typeField.onchange = function () {
+  price.placeholder = typeFieldMap[typeField.options[typeField.selectedIndex].value];
+};
 
-// var typeFieldMap = {
-//   'bungalo': '0',
-//   'flat': '1000',
-//   'house': '5000',
-//   'palace': '10000',
-// };
+addressField.disabled = true;
 
-// typeField.onchange = function () {
-//   price.placeholder = typeFieldMap[typeField.options[typeField.selectedIndex].value];
-// };
+var timeIn = document.querySelector('#timein');
+var timeOut = document.querySelector('#timeout');
 
-// addressField.disabled = true;
+var syncTime = function (firstSelect, secondSelect) {
+  firstSelect.addEventListener('input', function () {
+    secondSelect.value = firstSelect.value;
+  });
+};
 
+var roomNumber = document.querySelector('#room_number');
+var capacity = document.querySelector('#capacity');
+
+var syncRoomsAndGuests = function (select) {
+  select.addEventListener('input', function () {
+    var capacityInt = parseInt(capacity.value, 10);
+    var roomInt = parseInt(roomNumber.value, 10);
+    if (capacityInt > roomInt && capacityInt > 0) {
+      select.setCustomValidity('Количество гостей не должно превышать количество комнат');
+    } else if (roomInt === 100 && capacityInt > 0) {
+      select.setCustomValidity('100 комнат сдаются не для гостей');
+    } else if (roomInt !== 100 && capacityInt === 0) {
+      select.setCustomValidity('Выберите количество гостей');
+    } else {
+      roomNumber.setCustomValidity('');
+      capacity.setCustomValidity('');
+    }
+  });
+};
+
+var initMap = function () {
+  disableMap();
+  syncTime(timeIn, timeOut);
+  syncTime(timeOut, timeIn);
+  syncRoomsAndGuests(roomNumber);
+  syncRoomsAndGuests(capacity);
+};
+
+initMap();
 
