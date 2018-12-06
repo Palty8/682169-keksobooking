@@ -33,6 +33,7 @@ var GUESTS_MIN = 2;
 var GUESTS_MAX = 5;
 var PIN_HEIGHT = document.querySelector('.map__pin').offsetHeight;
 var PIN_WIDTH = document.querySelector('.map__pin').offsetWidth;
+var ESCAPE_KEY_CODE = 27;
 
 var getRandomInt = function (min, max) {
   min = Math.floor(min);
@@ -193,18 +194,12 @@ var renderCard = function (pin) {
 
   map.insertBefore(cardItem, mapFilter);
 
-  // ------------------Модуль 4, задание 1-------------------------------
-  // закрытие на крестик сделал в функции renderCard, но не уверен, что тут этому место.
-  // но тогда я не придумал каким образом за пределом функции я смогу найти новые созданные кнопки закрытия
   var popupClose = document.querySelectorAll('.popup__close');
 
   for (var k = 0; k < popupClose.length; k++) {
     popupCloseOnClick(popupClose[k]);
   }
 };
-
-
-// закрываю карточки на кнопку и на escape
 
 var hideCards = function () {
   var carditems = document.querySelectorAll('.map__card');
@@ -220,32 +215,26 @@ var popupCloseOnClick = function (close) {
 };
 
 document.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === 27) {
+  if (evt.keyCode === ESCAPE_KEY_CODE) {
     hideCards();
   }
 });
 
 
-// поиск формы
-var adForm = document.querySelector('.ad-form'); // в константы 2 строчки?
+var adForm = document.querySelector('.ad-form');
 var adFormFieldsets = adForm.querySelectorAll('fieldset');
 
-// блокировка элементов формы
 var disableMap = function () {
   for (var i = 0; i < adFormFieldsets.length; i++) {
     adFormFieldsets[i].disabled = true;
   }
 };
 
-// стартовый адрес метки
-
-var mapPinMain = document.querySelector('.map__pin--main'); // в константы?
+var mapPinMain = document.querySelector('.map__pin--main');
 
 var addressField = document.querySelector('#address');
 
 addressField.value = Math.floor(mapPinMain.offsetLeft + mapPinMain.offsetWidth / 2) + ', ' + Math.floor(mapPinMain.offsetTop - mapPinMain.offsetHeight / 2);
-
-// активация карты
 
 var activateMap = function () {
   document.querySelector('.map').classList.remove('map--faded');
@@ -257,14 +246,10 @@ var activateMap = function () {
   showPins();
 };
 
-// создаю и показываю метки
 var showPins = function () {
   var pins = generateData(PIN_COUNT);
   renderPins(pins);
-
-  // и удаляю обработчик, метки генерировались каждый раз на клик по стартовой метке
   mapPinMain.removeEventListener('mouseup', activateMap);
-
   var mapPins = document.querySelectorAll('.map__pin');
   for (var j = 0; j < pins.length; j++) {
     mapPinOnClick(mapPins[j + 1], pins[j]);
@@ -278,8 +263,6 @@ var mapPinOnClick = function (mapPin, pin) {
     renderCard(pin);
   });
 };
-
-// ----------------------Модуль 4, задание 2----------------------------------
 
 var typeField = document.querySelector('#type');
 
@@ -301,18 +284,11 @@ addressField.disabled = true;
 var timeIn = document.querySelector('#timein');
 var timeOut = document.querySelector('#timeout');
 
-var syncTime = function (firstSelect, secondSelect) { // работают обе конструкции, но эта лучше, чем нижняя? onchange используется вообще?
+var syncTime = function (firstSelect, secondSelect) {
   firstSelect.addEventListener('input', function () {
     secondSelect.value = firstSelect.value;
   });
 };
-
-// timeIn.onchange = function () {
-//   timeOut.value = timeIn.options[timeIn.selectedIndex].value;
-//   timeOut.onchange = function () {
-//     timeIn.value = timeOut.options[timeOut.selectedIndex].value;
-//   };
-// };
 
 var roomNumber = document.querySelector('#room_number');
 var capacity = document.querySelector('#capacity');
