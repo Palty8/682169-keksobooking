@@ -317,7 +317,6 @@ var initMap = function () {
 initMap();
 
 // ----------------------Модуль 5, задание 1----------------------------------
-
 var map = document.querySelector('.map');
 
 mapPinMain.addEventListener('mousedown', function (evt) {
@@ -348,11 +347,11 @@ mapPinMain.addEventListener('mousedown', function (evt) {
       left = 0;
     } else if (left > map.offsetWidth - PIN_WIDTH) {
       left = map.offsetWidth - PIN_WIDTH;
-    } else if (top < COORDINATE_Y_MIN) {
-      top = COORDINATE_Y_MIN;
-    } else if (top > COORDINATE_Y_MAX) {
-      top = COORDINATE_Y_MAX;
     }
+
+    top = Math.min(top, COORDINATE_Y_MAX);
+    top = Math.max(top, COORDINATE_Y_MIN);
+
 
     mapPinMain.style.left = left + 'px';
     mapPinMain.style.top = top + 'px';
