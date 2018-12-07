@@ -220,7 +220,6 @@ document.addEventListener('keydown', function (evt) {
   }
 });
 
-
 var adForm = document.querySelector('.ad-form');
 var adFormFieldsets = adForm.querySelectorAll('fieldset');
 
@@ -249,14 +248,11 @@ var activateMap = function () {
 var showPins = function () {
   var pins = generateData(PIN_COUNT);
   renderPins(pins);
-  mapPinMain.removeEventListener('mouseup', activateMap);
   var mapPins = document.querySelectorAll('.map__pin');
   for (var j = 0; j < pins.length; j++) {
     mapPinOnClick(mapPins[j + 1], pins[j]);
   }
 };
-
-mapPinMain.addEventListener('mouseup', activateMap);
 
 var mapPinOnClick = function (mapPin, pin) {
   mapPin.addEventListener('click', function () {
@@ -319,4 +315,60 @@ var initMap = function () {
 };
 
 initMap();
+
+// ----------------------Модуль 5, задание 1----------------------------------
+var map = document.querySelector('.map');
+
+mapPinMain.addEventListener('mousedown', function (evt) {
+  evt.preventDefault();
+
+  var startCoords = {
+    x: evt.clientX,
+    y: evt.clientY
+  };
+
+  var onMouseMove = function (moveEvt) {
+    moveEvt.preventDefault();
+
+    var shift = {
+      x: startCoords.x - moveEvt.clientX,
+      y: startCoords.y - moveEvt.clientY
+    };
+
+    startCoords = {
+      x: moveEvt.clientX,
+      y: moveEvt.clientY
+    };
+
+    var top = mapPinMain.offsetTop - shift.y;
+    var left = mapPinMain.offsetLeft - shift.x;
+
+    if (left < 0) {
+      left = 0;
+    } else if (left > map.offsetWidth - PIN_WIDTH) {
+      left = map.offsetWidth - PIN_WIDTH;
+    }
+
+    top = Math.min(top, COORDINATE_Y_MAX);
+    top = Math.max(top, COORDINATE_Y_MIN);
+
+
+    mapPinMain.style.left = left + 'px';
+    mapPinMain.style.top = top + 'px';
+
+    addressField.value = Math.floor(mapPinMain.offsetLeft + mapPinMain.offsetWidth / 2) + ', ' + Math.floor(mapPinMain.offsetTop - mapPinMain.offsetHeight);
+  };
+
+  var onMouseUp = function (upEvt) {
+    upEvt.preventDefault();
+    document.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('mouseup', onMouseUp);
+    mapPinMain.removeEventListener('mousedown', activateMap);
+  };
+
+  document.addEventListener('mousemove', onMouseMove);
+  document.addEventListener('mouseup', onMouseUp);
+});
+
+mapPinMain.addEventListener('mousedown', activateMap);
 
