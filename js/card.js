@@ -86,6 +86,14 @@
     var avatar = cardItem.querySelector('.popup__avatar');
     avatar.src = pin['author']['avatar'];
 
+    var cardChildren = cardItem.children;
+
+    for (var f = 0; f < cardChildren.length; f++) {
+      if (cardChildren[f] === '') {
+        cardChildren[f].classList.add('hidden');
+      }
+    }
+
     var mapFilter = document.querySelector('.map__filters-container');
 
     map.insertBefore(cardItem, mapFilter);

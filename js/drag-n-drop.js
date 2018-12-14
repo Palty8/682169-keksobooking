@@ -1,8 +1,6 @@
 'use strict';
 
 (function () {
-  var MAP_WIDTH = document.querySelector('.map').offsetWidth;
-
   window.form.pinMain.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
 
@@ -29,8 +27,8 @@
 
       if (left < 0) {
         left = 0;
-      } else if (left > MAP_WIDTH - window.data.PIN_WIDTH) {
-        left = MAP_WIDTH - window.data.PIN_WIDTH;
+      } else if (left > window.data.MAP_WIDTH - window.pin.PIN_WIDTH) {
+        left = window.data.MAP_WIDTH - window.pin.PIN_WIDTH;
       }
 
       top = Math.min(top, window.data.COORDINATE_Y_MAX);
@@ -45,14 +43,12 @@
 
     var onMouseUp = function (upEvt) {
       upEvt.preventDefault();
+      window.map.activateMap();
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
-      window.form.pinMain.removeEventListener('mousedown', window.map.activateMap);
     };
 
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
   });
-
-  window.form.pinMain.addEventListener('mousedown', window.map.activateMap);
 })();
