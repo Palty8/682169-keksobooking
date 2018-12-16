@@ -23,5 +23,8 @@
     mapPins.appendChild(fragment);
   };
 
-  window.renderPins = renderPins;
+  window.pin = {
+    renderPins: renderPins,
+    PIN_WIDTH: PIN_WIDTH
+  };
 })();

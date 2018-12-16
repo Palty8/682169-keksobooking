@@ -2,38 +2,59 @@
 
 (function () {
   var ESCAPE_KEYCODE = 27;
-  var PIN_COUNT = 8;
 
-  var hideCards = function () {
+  var isMapActive = false;
+
+  var removeCards = function () {
     var carditems = document.querySelectorAll('.map__card');
-    for (var i = 0; i < carditems.length; i++) {
-      carditems[i].classList.add('hidden');
-    }
+    carditems.forEach(function (item) {
+      item.remove();
+    });
+  };
+
+  var removePins = function () {
+    var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+    pins.forEach(function (item) {
+      item.remove();
+    });
   };
 
   var popupCloseOnClick = function (close) {
     close.addEventListener('click', function () {
-      hideCards();
+      removeCards();
     });
   };
+
   document.addEventListener('keydown', function (evt) {
     if (evt.keyCode === ESCAPE_KEYCODE) {
-      hideCards();
+      removeCards();
     }
   });
 
   var mapPinOnClick = function (mapPin, pin) {
     mapPin.addEventListener('click', function () {
+      var mapCard = document.querySelector('.map__card');
+      if (mapCard) {
+        removeCards();
+      }
       window.renderCard(pin);
     });
   };
 
   var showPins = function () {
-    var pins = window.data.generateData(PIN_COUNT);
-    window.renderPins(pins);
-    var mapPins = document.querySelectorAll('.map__pin');
-    for (var j = 0; j < pins.length; j++) {
-      mapPinOnClick(mapPins[j + 1], pins[j]);
+    var pins = window.data.getPins();
+    if (pins) {
+      for (var i = 0; i < pins.length; i++) {
+        if (!(pins[i].hasOwnProperty('offer'))) {
+          pins.splice(pins[i], 1);
+          i--;
+        }
+      }
+      window.pin.renderPins(pins);
+      var mapPins = document.querySelectorAll('.map__pin');
+      for (var j = 0; j < pins.length; j++) {
+        mapPinOnClick(mapPins[j + 1], pins[j]);
+      }
     }
   };
 
@@ -49,7 +70,12 @@
 
   window.map = {
     popupCloseOnClick: popupCloseOnClick,
-    activateMap: activateMap
+    activateMap: activateMap,
+    showPins: showPins,
+    isMapActive: isMapActive,
+    removeCards: removeCards,
+    removePins: removePins,
+    ESCAPE_KEYCODE: ESCAPE_KEYCODE
   };
 })();
 
