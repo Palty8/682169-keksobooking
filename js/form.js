@@ -16,6 +16,7 @@
     'flat': '1000',
     'house': '5000',
     'palace': '10000',
+    'default': '0'
   };
 
   var pinMainStartCoords = {
@@ -29,8 +30,11 @@
     }
   };
 
+  price.min = typeFieldMap['default'];
+
   typeField.onchange = function () {
     price.placeholder = typeFieldMap[typeField.options[typeField.selectedIndex].value];
+    price.min = typeFieldMap[typeField.options[typeField.selectedIndex].value];
   };
 
   addressField.readOnly = true;

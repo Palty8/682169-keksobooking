@@ -43,7 +43,10 @@
 
     var onMouseUp = function (upEvt) {
       upEvt.preventDefault();
-      window.map.activateMap();
+      if (!window.map.isMapActive) {
+        window.map.isMapActive = true;
+        window.map.activateMap();
+      }
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
     };

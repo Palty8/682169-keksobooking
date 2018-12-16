@@ -58,18 +58,14 @@
     }
   };
 
-
   var activateMap = function () {
-    if (!isMapActive) {
-      isMapActive = true;
-      document.querySelector('.map').classList.remove('map--faded');
-      document.querySelector('.ad-form').classList.remove('ad-form--disabled');
-      for (var i = 0; i < window.form.adFormFieldsets.length; i++) {
-        window.form.adFormFieldsets[i].disabled = false;
-      }
-      window.form.addressField.value = Math.floor(window.form.pinMain.offsetLeft + window.form.pinMain.offsetWidth / 2) + ', ' + Math.floor(window.form.pinMain.offsetTop - window.form.pinMain.offsetHeight / 2);
-      showPins();
+    document.querySelector('.map').classList.remove('map--faded');
+    document.querySelector('.ad-form').classList.remove('ad-form--disabled');
+    for (var i = 0; i < window.form.adFormFieldsets.length; i++) {
+      window.form.adFormFieldsets[i].disabled = false;
     }
+    window.form.addressField.value = Math.floor(window.form.pinMain.offsetLeft + window.form.pinMain.offsetWidth / 2) + ', ' + Math.floor(window.form.pinMain.offsetTop - window.form.pinMain.offsetHeight / 2);
+    showPins();
   };
 
   window.map = {
