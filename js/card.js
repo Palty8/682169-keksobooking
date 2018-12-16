@@ -88,11 +88,11 @@
 
     var cardChildren = cardItem.children;
 
-    for (var f = 0; f < cardChildren.length; f++) {
-      if (cardChildren[f] === '') {
-        cardChildren[f].classList.add('hidden');
+    Array.prototype.forEach.call(cardChildren, function (child) {
+      if (child === '') {
+        child.classList.add('hidden');
       }
-    }
+    });
 
     var mapFilter = document.querySelector('.map__filters-container');
 
@@ -100,9 +100,9 @@
 
     var popupClose = document.querySelectorAll('.popup__close');
 
-    for (var k = 0; k < popupClose.length; k++) {
-      window.map.popupCloseOnClick(popupClose[k]);
-    }
+    Array.prototype.forEach.call(popupClose, function (closeBtn) {
+      window.map.popupCloseOnClick(closeBtn);
+    });
   };
 
   window.renderCard = renderCard;

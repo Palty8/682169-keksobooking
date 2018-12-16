@@ -72,8 +72,8 @@
     document.querySelector('.map').classList.add('map--faded');
     adForm.reset();
     adForm.classList.add('ad-form--disabled');
-    window.map.hideCards();
-    window.map.hidePins();
+    window.map.removeCards();
+    window.map.removePins();
     pinMain.style.left = pinMainStartCoords.x + 'px';
     pinMain.style.top = pinMainStartCoords.y + 'px';
     disableMap();
@@ -101,7 +101,6 @@
     var errorMsg = errorTemplate.cloneNode(true);
     var errBtn = errorMsg.querySelector('.error__button');
     main.appendChild(errorMsg);
-
 
     errorMsg.addEventListener('click', function () {
       errorMsg.classList.add('hidden');
