@@ -9,6 +9,7 @@
     var carditems = document.querySelectorAll('.map__card');
     carditems.forEach(function (item) {
       item.remove();
+      document.removeEventListener('keydown', onEscPress);
     });
   };
 
@@ -25,24 +26,25 @@
     });
   };
 
-  document.addEventListener('keydown', function (evt) {
+  var onEscPress = function (evt) {
     if (evt.keyCode === ESCAPE_KEYCODE) {
       removeCards();
     }
-  });
+  };
 
   var mapPinOnClick = function (mapPin, pin) {
     mapPin.addEventListener('click', function () {
+      mapPin.classList.add('map__pin--active');
       var mapCard = document.querySelector('.map__card');
       if (mapCard) {
         removeCards();
       }
       window.renderCard(pin);
+      document.addEventListener('keydown', onEscPress);
     });
   };
 
-  var showPins = function () {
-    var pins = window.data.getPins();
+  var showPins = function (pins) {
     if (pins) {
       for (var i = 0; i < pins.length; i++) {
         if (!(pins[i].hasOwnProperty('offer'))) {
@@ -52,7 +54,7 @@
       }
       window.pin.renderPins(pins);
       var mapPins = document.querySelectorAll('.map__pin');
-      for (var j = 0; j < pins.length; j++) {
+      for (var j = 0; j < Math.min(pins.length, window.pin.MAX_PINS); j++) {
         mapPinOnClick(mapPins[j + 1], pins[j]);
       }
     }
@@ -64,8 +66,10 @@
     for (var i = 0; i < window.form.adFormFieldsets.length; i++) {
       window.form.adFormFieldsets[i].disabled = false;
     }
+    Array.prototype.forEach.call(window.form.mapFiltersSelects, function (select) {
+      select.disabled = false;
+    });
     window.form.addressField.value = Math.floor(window.form.pinMain.offsetLeft + window.form.pinMain.offsetWidth / 2) + ', ' + Math.floor(window.form.pinMain.offsetTop - window.form.pinMain.offsetHeight / 2);
-    showPins();
   };
 
   window.map = {
@@ -75,7 +79,7 @@
     isMapActive: isMapActive,
     removeCards: removeCards,
     removePins: removePins,
-    ESCAPE_KEYCODE: ESCAPE_KEYCODE
+    ESCAPE_KEYCODE: ESCAPE_KEYCODE,
   };
 })();
 

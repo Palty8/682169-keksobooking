@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var typeMap = {
+  var TypeMap = {
     'flat': 'Квартира',
     'bungalo': 'Бунгало',
     'house': 'Дом',
@@ -18,7 +18,7 @@
   };
 
   var addTextContentType = function (type) {
-    type.textContent = typeMap[type];
+    type.textContent = TypeMap[type];
   };
 
   var renderCard = function (pin) {
@@ -90,7 +90,7 @@
 
     Array.prototype.forEach.call(cardChildren, function (child) {
       if (child === '') {
-        child.classList.add('hidden');
+        child.remove();
       }
     });
 
