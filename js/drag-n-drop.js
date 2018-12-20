@@ -51,8 +51,10 @@
     var onMouseUp = function (upEvt) {
       upEvt.preventDefault();
       if (!window.map.isMapActive) {
+        var pins = window.data.getPins();
         window.map.isMapActive = true;
         window.map.activateMap();
+        window.map.showPins(pins);
       }
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
