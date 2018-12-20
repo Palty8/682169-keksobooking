@@ -10,8 +10,8 @@
   };
 
   var pinMainStartCoords = {
-    x: 570,
-    y: 375
+    X: 570,
+    Y: 375
   };
 
   var main = document.querySelector('main');
@@ -77,8 +77,8 @@
     adForm.classList.add('ad-form--disabled');
     window.map.removeCards();
     window.map.removePins();
-    pinMain.style.left = pinMainStartCoords.x + 'px';
-    pinMain.style.top = pinMainStartCoords.y + 'px';
+    pinMain.style.left = pinMainStartCoords.X + 'px';
+    pinMain.style.top = pinMainStartCoords.Y + 'px';
     disableMap();
     window.map.isMapActive = false;
     Array.prototype.forEach.call(featuresFilter, function (feature) {

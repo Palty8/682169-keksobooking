@@ -4,8 +4,8 @@
   var MAP_WIDTH = document.querySelector('.map').offsetWidth;
 
   var CoordsY = {
-    min: 130,
-    max: 630
+    MIN: 130,
+    MAX: 630
   };
 
   window.form.pinMain.addEventListener('mousedown', function (evt) {
@@ -38,8 +38,8 @@
         left = MAP_WIDTH - window.pin.PIN_WIDTH;
       }
 
-      top = Math.min(top, CoordsY.max);
-      top = Math.max(top, CoordsY.min);
+      top = Math.min(top, CoordsY.MAX);
+      top = Math.max(top, CoordsY.MIN);
 
       window.form.pinMain.style.left = left + 'px';
       window.form.pinMain.style.top = top + 'px';
