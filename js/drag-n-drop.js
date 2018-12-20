@@ -41,7 +41,6 @@
       top = Math.min(top, CoordsY.max);
       top = Math.max(top, CoordsY.min);
 
-
       window.form.pinMain.style.left = left + 'px';
       window.form.pinMain.style.top = top + 'px';
 

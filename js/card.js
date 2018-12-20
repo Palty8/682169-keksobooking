@@ -2,10 +2,10 @@
 
 (function () {
   var TypeMap = {
-    'flat': 'Квартира',
-    'bungalo': 'Бунгало',
-    'house': 'Дом',
-    'palace': 'Дворец',
+    'FLAT': 'Квартира',
+    'BUNGALO': 'Бунгало',
+    'HOUSE': 'Дом',
+    'PALACE': 'Дворец',
   };
 
   var RoomFormMap = {
@@ -14,7 +14,7 @@
     '3': 'комнаты',
     '4': 'комнаты',
     '5': 'комнат',
-    'default': 'комнаты'
+    'DEFAULT': 'комнаты'
   };
 
   var addTextContentType = function (type) {
@@ -42,7 +42,7 @@
     var room = pin['offer']['rooms'];
     var guest = pin['offer']['guests'];
 
-    var roomForm = RoomFormMap[room] !== undefined ? RoomFormMap[room] : RoomFormMap['default'];
+    var roomForm = RoomFormMap[room] !== undefined ? RoomFormMap[room] : RoomFormMap['DEFAULT'];
     accommodation.textContent = room + ' ' + roomForm + ' для ' + guest + ' гостей';
 
     var checkInCheckOutTime = cardItem.querySelector('.popup__text--time');

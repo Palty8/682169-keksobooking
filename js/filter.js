@@ -2,7 +2,6 @@
 
 (function () {
   var filterForm = document.querySelector('.map__filters');
-
   var featuresFieldset = filterForm.querySelector('#housing-features');
 
   var getFilteredValue = function (ad, value, key) {

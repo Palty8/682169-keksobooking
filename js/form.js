@@ -1,12 +1,12 @@
 'use strict';
 
 (function () {
-  var typeFieldMap = {
-    'bungalo': '0',
-    'flat': '1000',
-    'house': '5000',
-    'palace': '10000',
-    'default': '0'
+  var TypeFieldMap = {
+    'BUNGALO': '0',
+    'FLAT': '1000',
+    'HOUSE': '5000',
+    'PALACE': '10000',
+    'DEFAULT': '0'
   };
 
   var pinMainStartCoords = {
@@ -31,7 +31,7 @@
 
   addressField.value = Math.floor(pinMain.offsetLeft + pinMain.offsetWidth / 2) + ', ' + Math.floor(pinMain.offsetTop - pinMain.offsetHeight / 2);
   addressField.readOnly = true;
-  price.min = typeFieldMap['default'];
+  price.min = TypeFieldMap['DEFAULT'];
 
   var disableMap = function () {
     Array.prototype.forEach.call(adFormFieldsets, function (field) {
@@ -44,8 +44,8 @@
   };
 
   typeField.onchange = function () {
-    price.placeholder = typeFieldMap[typeField.options[typeField.selectedIndex].value];
-    price.min = typeFieldMap[typeField.options[typeField.selectedIndex].value];
+    price.placeholder = TypeFieldMap[typeField.options[typeField.selectedIndex].value];
+    price.min = TypeFieldMap[typeField.options[typeField.selectedIndex].value];
   };
 
   var syncTime = function (firstSelect, secondSelect) {
@@ -92,6 +92,7 @@
     main.appendChild(successMsg);
     successMsg.addEventListener('click', function () {
       successMsg.remove();
+      document.removeEventListener('keydown', onSuccessMsgEscPress);
     });
     document.addEventListener('keydown', onSuccessMsgEscPress);
   };
@@ -112,10 +113,12 @@
 
     errorMsg.addEventListener('click', function () {
       errorMsg.remove();
+      document.removeEventListener('keydown', onErorrMsgEscPress);
     });
 
     errBtn.addEventListener('click', function () {
       errorMsg.remove();
+      document.removeEventListener('keydown', onErorrMsgEscPress);
     });
     document.addEventListener('keydown', onErorrMsgEscPress);
   };

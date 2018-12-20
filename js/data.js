@@ -20,6 +20,4 @@
   window.data = {
     getPins: getPins
   };
-
-
 })();
