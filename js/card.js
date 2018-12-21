@@ -17,10 +17,6 @@
     'default': 'комнаты'
   };
 
-  var addTextContentType = function (offerType, type) {
-    offerType.textContent = TypeMap[type];
-  };
-
   var renderCard = function (pin) {
     var map = document.querySelector('.map');
     var mapCardTemplate = document.querySelector('#card').content.querySelector('.map__card');
@@ -36,7 +32,7 @@
     offerPrice.textContent = pin['offer']['price'] + ' ₽/ночь';
 
     var offerType = cardItem.querySelector('.popup__type');
-    addTextContentType(offerType, pin['offer']['type']);
+    offerType.textContent = TypeMap[pin['offer']['type']];
 
     var accommodation = cardItem.querySelector('.popup__text--capacity');
     var room = pin['offer']['rooms'];
