@@ -2,10 +2,10 @@
 
 (function () {
   var TypeMap = {
-    'FLAT': 'Квартира',
-    'BUNGALO': 'Бунгало',
-    'HOUSE': 'Дом',
-    'PALACE': 'Дворец',
+    'flat': 'Квартира',
+    'bungalo': 'Бунгало',
+    'house': 'Дом',
+    'palace': 'Дворец',
   };
 
   var RoomFormMap = {
@@ -14,11 +14,11 @@
     '3': 'комнаты',
     '4': 'комнаты',
     '5': 'комнат',
-    'DEFAULT': 'комнаты'
+    'default': 'комнаты'
   };
 
-  var addTextContentType = function (type) {
-    type.textContent = TypeMap[type];
+  var addTextContentType = function (offerType, type) {
+    offerType.textContent = TypeMap[type];
   };
 
   var renderCard = function (pin) {
@@ -36,13 +36,13 @@
     offerPrice.textContent = pin['offer']['price'] + ' ₽/ночь';
 
     var offerType = cardItem.querySelector('.popup__type');
-    addTextContentType(offerType);
+    addTextContentType(offerType, pin['offer']['type']);
 
     var accommodation = cardItem.querySelector('.popup__text--capacity');
     var room = pin['offer']['rooms'];
     var guest = pin['offer']['guests'];
 
-    var roomForm = RoomFormMap[room] !== undefined ? RoomFormMap[room] : RoomFormMap['DEFAULT'];
+    var roomForm = RoomFormMap[room] !== undefined ? RoomFormMap[room] : RoomFormMap['default'];
     accommodation.textContent = room + ' ' + roomForm + ' для ' + guest + ' гостей';
 
     var checkInCheckOutTime = cardItem.querySelector('.popup__text--time');
