@@ -22,18 +22,28 @@
 
   var popupCloseOnClick = function (close) {
     close.addEventListener('click', function () {
+      removeActivePinLight();
       removeCards();
     });
   };
 
   var onEscPress = function (evt) {
     if (evt.keyCode === ESCAPE_KEYCODE) {
+      removeActivePinLight();
       removeCards();
+    }
+  };
+
+  var removeActivePinLight = function () {
+    var activePin = document.querySelector('.map__pin--active');
+    if (activePin) {
+      activePin.classList.remove('map__pin--active');
     }
   };
 
   var mapPinOnClick = function (mapPin, pin) {
     mapPin.addEventListener('click', function () {
+      removeActivePinLight();
       mapPin.classList.add('map__pin--active');
       var mapCard = document.querySelector('.map__card');
       if (mapCard) {
