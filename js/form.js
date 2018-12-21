@@ -2,11 +2,11 @@
 
 (function () {
   var TypeFieldMap = {
-    'BUNGALO': '0',
-    'FLAT': '1000',
-    'HOUSE': '5000',
-    'PALACE': '10000',
-    'DEFAULT': '0'
+    'bungalo': '0',
+    'flat': '1000',
+    'house': '5000',
+    'palace': '10000',
+    'default': '0'
   };
 
   var PinMainStartCoords = {
@@ -31,7 +31,7 @@
 
   addressField.value = Math.floor(pinMain.offsetLeft + pinMain.offsetWidth / 2) + ', ' + Math.floor(pinMain.offsetTop - pinMain.offsetHeight / 2);
   addressField.readOnly = true;
-  price.min = TypeFieldMap['DEFAULT'];
+  price.min = TypeFieldMap['default'];
 
   var disableMap = function () {
     Array.prototype.forEach.call(adFormFieldsets, function (field) {
@@ -84,6 +84,7 @@
     Array.prototype.forEach.call(featuresFilter, function (feature) {
       feature.checked = false;
     });
+    price.placeholder = TypeFieldMap[typeField.options[typeField.selectedIndex].value];
   };
 
   var showSuccessMsg = function () {
