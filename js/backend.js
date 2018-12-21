@@ -5,6 +5,7 @@
   var URL_DATA = 'https://js.dump.academy/keksobooking/data';
   var URL = 'https://js.dump.academy/keksobooking';
   var SUCCESS_CODE = 200;
+  var REQUEST_TIMEOUT = 10000;
 
   var getData = function (onLoad, onError) {
     var xhr = new XMLHttpRequest();
@@ -26,7 +27,7 @@
     xhr.addEventListener('timeout', function () {
       onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
     });
-    xhr.timeout = 10000;
+    xhr.timeout = REQUEST_TIMEOUT;
 
     xhr.open('GET', URL_DATA);
     xhr.send();
@@ -52,7 +53,7 @@
     xhr.addEventListener('timeout', function () {
       onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
     });
-    xhr.timeout = 10000;
+    xhr.timeout = REQUEST_TIMEOUT;
 
     xhr.open('POST', URL);
     xhr.send(data);
