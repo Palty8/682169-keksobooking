@@ -18,6 +18,7 @@
   var adForm = document.querySelector('.ad-form');
   var adFormFieldsets = adForm.querySelectorAll('fieldset');
   var mapFiltersSelects = document.querySelector('.map__filters').querySelectorAll('select');
+  var mapFiltersFeaturesFieldset = document.querySelector('#housing-features');
   var featuresFilter = document.querySelector('.map__features').querySelectorAll('input');
   var pinMain = document.querySelector('.map__pin--main');
   var resetBtn = document.querySelector('.ad-form__reset');
@@ -28,8 +29,9 @@
   var capacity = document.querySelector('#capacity');
   var timeIn = document.querySelector('#timein');
   var timeOut = document.querySelector('#timeout');
+  var addressFieldTailValue = Math.floor(pinMain.offsetLeft + pinMain.offsetWidth / 2) + ', ' + Math.floor(pinMain.offsetTop + pinMain.offsetHeight);
 
-  addressField.value = Math.floor(pinMain.offsetLeft + pinMain.offsetWidth / 2) + ', ' + Math.floor(pinMain.offsetTop - pinMain.offsetHeight / 2);
+  addressField.value = addressFieldTailValue;
   addressField.readOnly = true;
   price.min = TypeFieldMap['default'];
 
@@ -41,11 +43,16 @@
       select.value = 'any';
       select.disabled = true;
     });
+    mapFiltersFeaturesFieldset.disabled = true;
+  };
+
+  var setPriceAttr = function () {
+    price.placeholder = TypeFieldMap[typeField.options[typeField.selectedIndex].value];
+    price.min = TypeFieldMap[typeField.options[typeField.selectedIndex].value];
   };
 
   typeField.onchange = function () {
-    price.placeholder = TypeFieldMap[typeField.options[typeField.selectedIndex].value];
-    price.min = TypeFieldMap[typeField.options[typeField.selectedIndex].value];
+    setPriceAttr();
   };
 
   var syncTime = function (firstSelect, secondSelect) {
@@ -79,12 +86,13 @@
     window.map.removePins();
     pinMain.style.left = PinMainStartCoords.X + 'px';
     pinMain.style.top = PinMainStartCoords.Y + 'px';
+    addressField.value = addressFieldTailValue;
     disableMap();
     window.map.isMapActive = false;
     Array.prototype.forEach.call(featuresFilter, function (feature) {
       feature.checked = false;
     });
-    price.placeholder = TypeFieldMap[typeField.options[typeField.selectedIndex].value];
+    setPriceAttr();
   };
 
   var showSuccessMsg = function () {
@@ -157,6 +165,7 @@
     adForm: adForm,
     adFormFieldsets: adFormFieldsets,
     mapFiltersSelects: mapFiltersSelects,
+    mapFiltersFeaturesFieldset: mapFiltersFeaturesFieldset,
     pinMain: pinMain,
     addressField: addressField,
     showErrorMsg: showErrorMsg,

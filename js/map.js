@@ -79,7 +79,8 @@
     Array.prototype.forEach.call(window.form.mapFiltersSelects, function (select) {
       select.disabled = false;
     });
-    window.form.addressField.value = Math.floor(window.form.pinMain.offsetLeft + window.form.pinMain.offsetWidth / 2) + ', ' + Math.floor(window.form.pinMain.offsetTop - window.form.pinMain.offsetHeight / 2);
+    window.form.mapFiltersFeaturesFieldset.disabled = false;
+    window.form.addressField.value = Math.floor(window.form.pinMain.offsetLeft + window.form.pinMain.offsetWidth / 2) + ', ' + Math.floor(window.form.pinMain.offsetTop + window.form.pinMain.offsetHeight);
   };
 
   window.map = {

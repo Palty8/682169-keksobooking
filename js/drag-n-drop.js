@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var MAP_WIDTH = document.querySelector('.map').offsetWidth;
+  var mapWidth = document.querySelector('.map').offsetWidth;
 
   var CoordsY = {
     MIN: 130,
@@ -34,17 +34,17 @@
 
       if (left < 0) {
         left = 0;
-      } else if (left > MAP_WIDTH - window.pin.PIN_WIDTH) {
-        left = MAP_WIDTH - window.pin.PIN_WIDTH;
+      } else if (left > mapWidth - window.form.pinMain.offsetWidth) {
+        left = mapWidth - window.form.pinMain.offsetWidth;
       }
 
-      top = Math.min(top, CoordsY.MAX);
-      top = Math.max(top, CoordsY.MIN);
+      top = Math.min(top, CoordsY.MAX - window.form.pinMain.offsetHeight);
+      top = Math.max(top, CoordsY.MIN - window.form.pinMain.offsetHeight);
 
       window.form.pinMain.style.left = left + 'px';
       window.form.pinMain.style.top = top + 'px';
 
-      window.form.addressField.value = Math.floor(window.form.pinMain.offsetLeft + window.form.pinMain.offsetWidth / 2) + ', ' + Math.floor(window.form.pinMain.offsetTop - window.form.pinMain.offsetHeight);
+      window.form.addressField.value = Math.floor(window.form.pinMain.offsetLeft + window.form.pinMain.offsetWidth / 2) + ', ' + Math.floor(window.form.pinMain.offsetTop + window.form.pinMain.offsetHeight);
     };
 
     var onMouseUp = function (upEvt) {
