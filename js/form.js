@@ -93,6 +93,8 @@
       feature.checked = false;
     });
     setPriceAttr();
+    window.avatar.resetAvatar();
+    window.photos.resetPhotoForm();
   };
 
   var showSuccessMsg = function () {
